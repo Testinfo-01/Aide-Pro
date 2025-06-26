@@ -2,162 +2,163 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>Connexion Prestataire</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bienvenue sur Aide Pro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f0f0f0;
+      background: linear-gradient(to right, #f0f4f8, #e0e7ff);
+      color: #1f2937;
+    }
+
+    header {
+      background-color: #ffffff;
+      padding: 20px 40px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
-      height: 100vh;
     }
-    .container {
-      background-color: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
-      width: 100%;
-      max-width: 400px;
-      text-align: center;
+
+    header h1 {
+      font-size: 24px;
+      font-weight: 800;
+      color: #2563eb;
     }
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
+
+    nav a {
+      margin-left: 20px;
+      text-decoration: none;
+      color: #1f2937;
+      font-weight: 600;
     }
-    button {
-      width: 100%;
-      padding: 12px;
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      margin-top: 10px;
-      cursor: pointer;
+
+    nav a:hover {
+      color: #2563eb;
     }
-    button:hover {
-      background-color: #0056b3;
-    }
-    .g_id_signin {
+
+    .hero {
       display: flex;
+      flex-direction: column;
+      align-items: center;
       justify-content: center;
-      margin-bottom: 10px;
+      text-align: center;
+      padding: 80px 20px;
     }
-    h2 {
+
+    .hero h2 {
+      font-size: 48px;
+      font-weight: 800;
+      color: #111827;
       margin-bottom: 20px;
     }
+
+    .hero p {
+      font-size: 20px;
+      max-width: 600px;
+      color: #4b5563;
+    }
+
+    .cta {
+      margin-top: 40px;
+      display: flex;
+      gap: 20px;
+    }
+
+    .cta a {
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: 0.3s ease;
+    }
+
+    .cta .client {
+      background-color: #2563eb;
+      color: white;
+    }
+
+    .cta .client:hover {
+      background-color: #1d4ed8;
+    }
+
+    .cta .provider {
+      background-color: white;
+      border: 2px solid #2563eb;
+      color: #2563eb;
+    }
+
+    .cta .provider:hover {
+      background-color: #eff6ff;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      color: #6b7280;
+      margin-top: 80px;
+      background-color: #ffffff;
+    }
+
+    .social-icons {
+      margin-top: 10px;
+    }
+
+    .social-icons a {
+      margin: 0 10px;
+      text-decoration: none;
+      color: #2563eb;
+      font-size: 20px;
+    }
+
+    .slogan {
+      font-style: italic;
+      font-size: 16px;
+      margin-top: 8px;
+      color: #4b5563;
+    }
   </style>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
-  <div class="container">
-    <h2>Connexion Prestataire</h2>
-
-    <!-- Connexion Google -->
-    <div id="g_id_onload"
-         data-client_id="591308112358-ss2vos7f9j8ucacjvi1n96h51nke6s35.apps.googleusercontent.com"
-         data-context="signin"
-         data-ux_mode="popup"
-         data-callback="handleGoogleCredentialResponse"
-         data-auto_prompt="false">
+  <header>
+    <div>
+      <h1>Aide Pro</h1>
+      <div class="slogan">un client, un pro, une solution</div>
     </div>
-    <div class="g_id_signin"
-         data-type="standard"
-         data-shape="rectangular"
-         data-theme="outline"
-         data-text="signin_with"
-         data-size="large"
-         data-logo_alignment="left">
+    <nav>
+      <a href="#">Accueil</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <h2>Des experts à votre service, en un clic.</h2>
+    <p>Aide Pro vous met en relation avec les meilleurs prestataires pour tous vos besoins : nettoyage, plomberie, déneigement et bien plus.</p>
+    <div class="cta">
+      <a href="client_login.html" class="client">Je suis un client</a>
+      <a href="provider_login.html" class="provider">Je suis un prestataire</a>
     </div>
+  </section>
 
-    <div><strong>ou</strong></div>
-
-    <!-- Connexion email -->
-    <form onsubmit="event.preventDefault(); login();">
-      <input type="email" id="login-email" placeholder="Adresse e-mail" required />
-      <input type="password" id="login-password" placeholder="Mot de passe" required />
-      <button type="submit">Se connecter</button>
-    </form>
-
-    <hr>
-
-    <!-- Création de compte -->
-    <form onsubmit="event.preventDefault(); signup();">
-      <input type="text" placeholder="Prénom" required />
-      <input type="text" placeholder="Nom" required />
-      <input type="email" id="signup-email" placeholder="Adresse e-mail" required />
-      <input type="password" id="signup-password" placeholder="Mot de passe" required />
-      <button type="submit">Créer mon compte</button>
-    </form>
-  </div>
-
-  <!-- Firebase & Google OAuth JS -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
-    import { getAuth, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyC2inmwBRTU6tXqo6bMmOXM1SHemGXLUNA",
-      authDomain: "aidepro.firebaseapp.com",
-      projectId: "aidepro",
-      storageBucket: "aidepro.firebasestorage.app",
-      messagingSenderId: "945194958346",
-      appId: "1:945194958346:web:3d0f9ab89e4410d8b729f3",
-      measurementId: "G-9629QPX55Z"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-    const auth = getAuth(app);
-
-    // Connexion avec Google
-    window.handleGoogleCredentialResponse = function(response) {
-      const credential = GoogleAuthProvider.credential(response.credential);
-      const provider = new GoogleAuthProvider();
-      signInWithPopup(auth, provider)
-        .then((result) => {
-          alert("✅ Connexion Google réussie !");
-          console.log(result.user);
-        })
-        .catch((error) => {
-          alert("Erreur Google : " + error.message);
-        });
-    };
-
-    // Connexion email
-    window.login = function () {
-      const email = document.getElementById("login-email").value;
-      const password = document.getElementById("login-password").value;
-
-      signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          alert("✅ Connexion réussie !");
-          console.log(userCredential.user);
-        })
-        .catch((error) => {
-          alert("Erreur : " + error.message);
-        });
-    };
-
-    // Création de compte
-    window.signup = function () {
-      const email = document.getElementById("signup-email").value;
-      const password = document.getElementById("signup-password").value;
-
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          alert("✅ Compte prestataire créé !");
-          console.log(userCredential.user);
-        })
-        .catch((error) => {
-          alert("Erreur : " + error.message);
-        });
-    };
-  </script>
+  <footer>
+    &copy; 2025 Aide Pro. Tous droits réservés.
+    <div class="social-icons">
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-linkedin-in"></i></a>
+    </div>
+  </footer>
 </body>
 </html>
