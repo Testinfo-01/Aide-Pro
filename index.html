@@ -245,10 +245,10 @@
     <p style="font-size: 16px; color: #4b5563; max-width: 600px; margin: 0 auto 30px auto;">
       Une question ? Un besoin ? N'hésitez pas à nous écrire. Nous vous répondrons rapidement !
     </p>
-    <form style="max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px;">
-      <input type="text" placeholder="Votre nom" style="padding: 12px; border: 1px solid #d1d5db; border-radius: 8px;" required />
-      <input type="email" placeholder="Votre email" style="padding: 12px; border: 1px solid #d1d5db; border-radius: 8px;" required />
-      <textarea rows="4" placeholder="Votre message" style="padding: 12px; border: 1px solid #d1d5db; border-radius: 8px;" required></textarea>
+    <form action="https://formspree.io/f/mldnoaqb" method="POST" style="max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px;">
+      <input type="text" name="nom" placeholder="Votre nom" required style="padding: 12px; border: 1px solid #d1d5db; border-radius: 8px;" />
+      <input type="email" name="email" placeholder="Votre email" required style="padding: 12px; border: 1px solid #d1d5db; border-radius: 8px;" />
+      <textarea name="message" rows="4" placeholder="Votre message" required style="padding: 12px; border: 1px solid #d1d5db; border-radius: 8px;"></textarea>
       <button type="submit" style="background-color: #2563eb; color: white; padding: 12px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
         Envoyer le message
       </button>
