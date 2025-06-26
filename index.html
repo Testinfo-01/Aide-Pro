@@ -245,7 +245,9 @@
     <p style="font-size: 16px; color: #4b5563; max-width: 600px; margin: 0 auto 30px auto;">
       Une question ? Un besoin ? N'hésitez pas à nous écrire. Nous vous répondrons rapidement !
     </p>
-    <form action="https://formspree.io/f/mldnoaqb" method="POST" style="max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px;">
+    <form action="https://formspree.io/f/mldnoaqb" method="POST" onsubmit="redirectAfterSubmit(event)" style="max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px;">
+      <input type="hidden" name="_subject" value="Nouveau message de Aide Pro">
+      <input type="hidden" name="_replyto" value="no-reply@aidepro.com">
       <input type="text" name="nom" placeholder="Votre nom" required style="padding: 12px; border: 1px solid #d1d5db; border-radius: 8px;" />
       <input type="email" name="email" placeholder="Votre email" required style="padding: 12px; border: 1px solid #d1d5db; border-radius: 8px;" />
       <textarea name="message" rows="4" placeholder="Votre message" required style="padding: 12px; border: 1px solid #d1d5db; border-radius: 8px;"></textarea>
@@ -253,6 +255,26 @@
         Envoyer le message
       </button>
     </form>
+<script>
+  function redirectAfterSubmit(event) {
+    event.preventDefault();
+    const form = event.target;
+
+    fetch(form.action, {
+      method: form.method,
+      body: new FormData(form),
+      headers: {
+        'Accept': 'application/json'
+      }
+    }).then(response => {
+      if (response.ok) {
+        window.location.href = "confirmation.html";
+      } else {
+        alert("Une erreur s’est produite. Veuillez réessayer.");
+      }
+    });
+  }
+</script>
   </section>
 
   <footer>
