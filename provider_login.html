@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <title>Connexion Prestataire</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -19,6 +21,7 @@
       box-shadow: 0 0 15px rgba(0,0,0,0.2);
       width: 100%;
       max-width: 400px;
+      text-align: center;
     }
     input {
       width: 100%;
@@ -40,8 +43,13 @@
     button:hover {
       background-color: #0056b3;
     }
+    .g_id_signin {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
     h2 {
-      text-align: center;
+      margin-bottom: 20px;
     }
   </style>
 </head>
@@ -49,7 +57,26 @@
   <div class="container">
     <h2>Connexion Prestataire</h2>
 
-    <!-- Formulaire de connexion -->
+    <!-- Connexion Google -->
+    <div id="g_id_onload"
+         data-client_id="591308112358-ss2vos7f9j8ucacjvi1n96h51nke6s35.apps.googleusercontent.com"
+         data-context="signin"
+         data-ux_mode="popup"
+         data-callback="handleGoogleCredentialResponse"
+         data-auto_prompt="false">
+    </div>
+    <div class="g_id_signin"
+         data-type="standard"
+         data-shape="rectangular"
+         data-theme="outline"
+         data-text="signin_with"
+         data-size="large"
+         data-logo_alignment="left">
+    </div>
+
+    <div><strong>ou</strong></div>
+
+    <!-- Connexion email -->
     <form onsubmit="event.preventDefault(); login();">
       <input type="email" id="login-email" placeholder="Adresse e-mail" required />
       <input type="password" id="login-password" placeholder="Mot de passe" required />
@@ -58,7 +85,7 @@
 
     <hr>
 
-    <!-- Formulaire de création de compte -->
+    <!-- Création de compte -->
     <form onsubmit="event.preventDefault(); signup();">
       <input type="text" placeholder="Prénom" required />
       <input type="text" placeholder="Nom" required />
@@ -68,11 +95,11 @@
     </form>
   </div>
 
-  <!-- Firebase script -->
+  <!-- Firebase & Google OAuth JS -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
     import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyC2inmwBRTU6tXqo6bMmOXM1SHemGXLUNA",
@@ -88,20 +115,21 @@
     const analytics = getAnalytics(app);
     const auth = getAuth(app);
 
-    window.signup = function () {
-      const email = document.getElementById("signup-email").value;
-      const password = document.getElementById("signup-password").value;
-
-      createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          alert("✅ Compte prestataire créé avec succès !");
-          console.log(userCredential.user);
+    // Connexion avec Google
+    window.handleGoogleCredentialResponse = function(response) {
+      const credential = GoogleAuthProvider.credential(response.credential);
+      const provider = new GoogleAuthProvider();
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          alert("✅ Connexion Google réussie !");
+          console.log(result.user);
         })
         .catch((error) => {
-          alert("Erreur : " + error.message);
+          alert("Erreur Google : " + error.message);
         });
     };
 
+    // Connexion email
     window.login = function () {
       const email = document.getElementById("login-email").value;
       const password = document.getElementById("login-password").value;
@@ -109,6 +137,21 @@
       signInWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           alert("✅ Connexion réussie !");
+          console.log(userCredential.user);
+        })
+        .catch((error) => {
+          alert("Erreur : " + error.message);
+        });
+    };
+
+    // Création de compte
+    window.signup = function () {
+      const email = document.getElementById("signup-email").value;
+      const password = document.getElementById("signup-password").value;
+
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          alert("✅ Compte prestataire créé !");
           console.log(userCredential.user);
         })
         .catch((error) => {
