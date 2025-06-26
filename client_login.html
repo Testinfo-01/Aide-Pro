@@ -2,120 +2,113 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Connexion Client - Aide Pro</title>
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <script>
-    function handleCredentialResponse(response) {
-      console.log("ID Token reçu (client) :", response.credential);
-    }
-  </script>
+  <title>Connexion Client</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f9f9f9;
+      background-color: #f0f0f0;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       height: 100vh;
-      margin: 0;
     }
     .container {
-      background: white;
+      background-color: white;
       padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
       width: 100%;
       max-width: 400px;
-      text-align: center;
-    }
-    h2 {
-      margin-bottom: 20px;
-    }
-    form {
-      margin-top: 15px;
     }
     input {
       width: 100%;
-      padding: 12px;
+      padding: 10px;
       margin: 8px 0;
       border: 1px solid #ccc;
-      border-radius: 6px;
+      border-radius: 5px;
     }
     button {
       width: 100%;
       padding: 12px;
-      background-color: #007bff;
+      background-color: #007BFF;
       color: white;
       border: none;
-      border-radius: 6px;
-      font-size: 1rem;
+      border-radius: 5px;
       margin-top: 10px;
       cursor: pointer;
     }
     button:hover {
       background-color: #0056b3;
     }
-    .g_id_signin {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 10px;
-    }
-    .link {
-      color: #007bff;
-      text-decoration: none;
-      display: block;
-      margin-top: 10px;
-    }
-    .divider {
-      margin: 20px 0 10px;
-      font-weight: bold;
+    h2 {
+      text-align: center;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h2>Connexion Client</h2>
-
-    <!-- Google Sign In -->
-    <div id="g_id_onload"
-         data-client_id="591308112358-ss2vos7f9j8ucacjvi1n96h51nke6s35.apps.googleusercontent.com"
-         data-context="signin"
-         data-ux_mode="popup"
-         data-callback="handleCredentialResponse"
-         data-auto_prompt="false">
-    </div>
-
-    <div class="g_id_signin"
-         data-type="standard"
-         data-shape="rectangular"
-         data-theme="outline"
-         data-text="signin_with"
-         data-size="large"
-         data-logo_alignment="left">
-    </div>
-
-    <div class="divider">ou</div>
-
-    <!-- Login Form -->
-    <form>
-      <input type="email" placeholder="Adresse e-mail" required />
-      <input type="password" placeholder="Mot de passe" required />
+    <form onsubmit="event.preventDefault(); login();">
+      <input type="email" id="login-email" placeholder="Adresse e-mail" required />
+      <input type="password" id="login-password" placeholder="Mot de passe" required />
       <button type="submit">Se connecter</button>
     </form>
-
-    <a class="link" href="index.html">Retour à l'accueil</a>
-
-    <div class="divider">Créer un compte</div>
-
-    <!-- Signup Form -->
-    <form>
+    <hr>
+    <form onsubmit="event.preventDefault(); signup();">
       <input type="text" placeholder="Prénom" required />
       <input type="text" placeholder="Nom" required />
-      <input type="email" placeholder="Adresse e-mail" required />
-      <input type="password" placeholder="Mot de passe" required />
+      <input type="email" id="signup-email" placeholder="Adresse e-mail" required />
+      <input type="password" id="signup-password" placeholder="Mot de passe" required />
       <button type="submit">Créer mon compte</button>
     </form>
   </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC2inmwBRTU6tXqo6bMmOXM1SHemGXLUNA",
+      authDomain: "aidepro.firebaseapp.com",
+      projectId: "aidepro",
+      storageBucket: "aidepro.firebasestorage.app",
+      messagingSenderId: "945194958346",
+      appId: "1:945194958346:web:3d0f9ab89e4410d8b729f3",
+      measurementId: "G-9629QPX55Z"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    const auth = getAuth(app);
+
+    window.signup = function () {
+      const email = document.getElementById("signup-email").value;
+      const password = document.getElementById("signup-password").value;
+
+      createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          alert("✅ Compte créé avec succès !");
+          console.log(userCredential.user);
+        })
+        .catch((error) => {
+          alert("Erreur : " + error.message);
+        });
+    };
+
+    window.login = function () {
+      const email = document.getElementById("login-email").value;
+      const password = document.getElementById("login-password").value;
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          alert("✅ Connexion réussie !");
+          console.log(userCredential.user);
+        })
+        .catch((error) => {
+          alert("Erreur : " + error.message);
+        });
+    };
+  </script>
 </body>
 </html>
