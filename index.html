@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bienvenue sur Aide Pro</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aide Pro</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     * {
@@ -13,145 +13,102 @@
       font-family: 'Inter', sans-serif;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
-
     body {
-      background: linear-gradient(to right, #f0f4f8, #e0e7ff);
-      color: #1f2937;
+      background-color: #fff;
+      color: #1f1f1f;
     }
 
     header {
-      background-color: #ffffff;
-      padding: 20px 40px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding: 20px 40px;
+      border-bottom: 1px solid #e5e7eb;
     }
 
-    header h1 {
-      font-size: 24px;
+    .logo {
+      display: flex;
+      align-items: center;
       font-weight: 800;
-      color: #2563eb;
+      font-size: 24px;
+      color: #6366f1;
     }
 
-    nav a {
-      margin-left: 20px;
+    .logo img {
+      height: 40px;
+      margin-right: 10px;
+    }
+
+    .nav-links a {
+      margin: 0 16px;
       text-decoration: none;
-      color: #1f2937;
+      color: #111;
       font-weight: 600;
     }
 
-    nav a:hover {
-      color: #2563eb;
+    .nav-links a:hover {
+      color: #6366f1;
+    }
+
+    .cta-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .cta-header a {
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 24px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background-color: #6366f1;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #4f46e5;
     }
 
     .hero {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 80px 20px;
+      justify-content: space-between;
+      padding: 60px 10%;
+      flex-wrap: wrap;
     }
 
-    .hero h2 {
+    .hero-text {
+      max-width: 500px;
+    }
+
+    .hero-text h1 {
       font-size: 48px;
       font-weight: 800;
-      color: #111827;
       margin-bottom: 20px;
     }
 
-    .hero p {
-      font-size: 20px;
-      max-width: 600px;
-      color: #4b5563;
+    .hero-text p {
+      font-size: 18px;
+      margin-bottom: 30px;
     }
 
-    .cta {
-      margin-top: 40px;
-      display: flex;
-      gap: 20px;
-    }
-
-    .cta a {
-      padding: 14px 28px;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: 600;
-      text-decoration: none;
-      transition: 0.3s ease;
-    }
-
-    .cta .client {
-      background-color: #2563eb;
+    .hero-text a {
+      background-color: #6366f1;
       color: white;
+      padding: 14px 30px;
+      border-radius: 32px;
+      text-decoration: none;
+      font-weight: 600;
     }
 
-    .cta .client:hover {
-      background-color: #1d4ed8;
-    }
-
-    .cta .provider {
-      background-color: white;
-      border: 2px solid #2563eb;
-      color: #2563eb;
-    }
-
-    .cta .provider:hover {
-      background-color: #eff6ff;
-    }
-
-    .services {
-      padding: 60px 20px;
-      text-align: center;
-    }
-
-    .services h3 {
-      font-size: 36px;
-      margin-bottom: 40px;
-      font-weight: 800;
-      color: #1f2937;
-    }
-
-    .service-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      max-width: 1000px;
-      margin: auto;
-    }
-
-    .service-card {
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
-      transition: 0.3s ease;
-      cursor: pointer;
-    }
-
-    .service-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .service-card span {
-      font-size: 36px;
-      display: block;
-      margin-bottom: 15px;
-    }
-
-    .service-card h4 {
-      font-size: 20px;
-      margin-bottom: 10px;
-      font-weight: 700;
-    }
-
-    .service-card p {
-      font-size: 15px;
-      color: #4b5563;
+    .hero-img img {
+      max-width: 500px;
+      width: 100%;
+      border-radius: 16px;
     }
 
     footer {
@@ -159,8 +116,8 @@
       padding: 20px;
       font-size: 14px;
       color: #6b7280;
-      margin-top: 80px;
-      background-color: #ffffff;
+      background-color: #f9fafb;
+      margin-top: 60px;
     }
 
     .social-icons {
@@ -170,77 +127,64 @@
     .social-icons a {
       margin: 0 10px;
       text-decoration: none;
-      color: #2563eb;
+      color: #6366f1;
       font-size: 20px;
     }
-
-    .slogan {
-      font-style: italic;
-      font-size: 16px;
-      margin-top: 8px;
-      color: #4b5563;
-    }
   </style>
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
   <header>
-    <div>
-      <h1>Aide Pro</h1>
-      <div class="slogan">un client, un pro, une solution</div>
+    <div class="logo">
+      <img src="https://cdn-icons-png.flaticon.com/512/5968/5968757.png" alt="Aide Pro Logo">
+      Aide Pro
     </div>
-    <nav>
-      <a href="#">Accueil</a>
+    <nav class="nav-links">
+      <a href="index.html">Accueil</a>
       <a href="#services">Services</a>
       <a href="#contact">Contact</a>
     </nav>
+    <div class="cta-header">
+      <a href="client_login.html">Log In</a>
+      <a href="signup.html" class="btn-primary">Sign Up</a>
+    </div>
   </header>
 
   <section class="hero">
-    <h2>Des experts à votre service, en un clic.</h2>
-    <p>Aide Pro vous met en relation avec les meilleurs prestataires pour tous vos besoins : nettoyage, plomberie, déneigement et bien plus.</p>
-    <div class="cta">
-      <a href="client_login.html" class="client">Je suis un client</a>
-      <a href="provider_login.html" class="provider">Je suis un prestataire</a>
+    <div class="hero-img">
+      <img src="https://images.unsplash.com/photo-1604374202185-9f4efba06af6" alt="Aide Pro Hero">
+    </div>
+    <div class="hero-text">
+      <h1>Besoin d'aide ?</h1>
+      <p>Aide Pro vous connecte avec des prestataires fiables pour vos besoins à domicile. Réservez en toute simplicité.</p>
+      <a href="client_login.html">Trouver un pro</a>
     </div>
   </section>
 
-  <section class="services" id="services">
-    <h3>Nos services</h3>
-    <div class="service-grid">
-      <div class="service-card" onclick="location.href='prestataires.html?service=Nettoyage'">
-        <span>🧼</span>
-        <h4>Nettoyage à domicile</h4>
-        <p>Ménage, vitres, sols… un intérieur impeccable sans effort.</p>
-      </div>
-      <div class="service-card" onclick="location.href='prestataires.html?service=Plomberie'">
-        <span>🚿</span>
-        <h4>Plomberie</h4>
-        <p>Fuites, réparations ou installations : on s’en occupe.</p>
-      </div>
-      <div class="service-card" onclick="location.href='prestataires.html?service=Bricolage'">
-        <span>🩰</span>
-        <h4>Bricolage & Réparations</h4>
-        <p>Petits travaux et montages à domicile.</p>
-      </div>
-      <div class="service-card" onclick="location.href='prestataires.html?service=Animaux'">
-        <span>🐶</span>
-        <h4>Services pour animaux</h4>
-        <p>Promenade, garde et toilettage pour vos compagnons.</p>
-      </div>
-      <div class="service-card" onclick="location.href='prestataires.html?service=Jardinage'">
-        <span>🌿</span>
-        <h4>Jardinage & Déneigement</h4>
-        <p>Taille, entretien ou déblayage selon la saison.</p>
-      </div>
-      <div class="service-card" onclick="location.href='prestataires.html?service=Informatique'">
-        <span>💻</span>
-        <h4>Assistance informatique</h4>
-        <p>Aide, installation et dépannage informatique à domicile.</p>
-      </div>
-    </div>
+  <section id="services" style="padding: 40px 10%; background-color: #f3f4f6;">
+    <h2 style="font-size: 32px; margin-bottom: 20px; color: #111;">Nos Services</h2>
+    <ul style="list-style: none; line-height: 2;">
+      <li><a href="prestataires.html">Nettoyage à domicile</a></li>
+      <li><a href="#">Plomberie</a></li>
+      <li><a href="#">Jardinage</a></li>
+      <li><a href="#">Garde d'enfants</a></li>
+    </ul>
   </section>
 
-  <!-- Reste du contenu inchangé -->
+  <section id="contact" style="padding: 40px 10%;">
+    <h2 style="font-size: 32px; margin-bottom: 20px; color: #111;">Contactez-nous</h2>
+    <p>Pour toute question ou assistance, écrivez-nous à <a href="mailto:bopeto@gmail.com">bopeto@gmail.com</a>.</p>
+  </section>
+
+  <footer>
+    &copy; 2025 Aide Pro. Tous droits réservés.
+    <div class="social-icons">
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-linkedin-in"></i></a>
+    </div>
+  </footer>
+
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 </html>
