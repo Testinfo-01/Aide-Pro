@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion Aide Pro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(to right, #f0f4f8, #dbeafe);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .form-container {
+      background: white;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: #2563eb;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 8px 0;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      background-color: #2563eb;
+      color: white;
+      padding: 12px;
+      margin-top: 12px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #1d4ed8;
+    }
+
+    .or {
+      margin: 20px 0 10px;
+      font-weight: 600;
+      color: #6b7280;
+    }
+
+    .google-btn {
+      background-color: #fff;
+      color: #2563eb;
+      border: 2px solid #2563eb;
+    }
+
+    .google-btn:hover {
+      background-color: #f0f9ff;
+    }
+  </style>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC2inmwBRTU6tXqo6bMmOXM1SHemGXLUNA",
+      authDomain: "aidepro.firebaseapp.com",
+      projectId: "aidepro",
+      storageBucket: "aidepro.firebasestorage.app",
+      messagingSenderId: "945194958346",
+      appId: "1:945194958346:web:3d0f9ab89e4410d8b729f3",
+      measurementId: "G-9629QPX55Z"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const provider = new GoogleAuthProvider();
+
+    window.handleLogin = async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        redirectAccordingToRole(user.uid);
+      } catch (error) {
+        alert("Erreur : " + error.message);
+      }
+    };
+
+    window.handleGoogleLogin = async () => {
+      try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+        redirectAccordingToRole(user.uid);
+      } catch (error) {
+        alert("Erreur Google : " + error.message);
+      }
+    };
+
+    async function redirectAccordingToRole(uid) {
+      const userRef = doc(db, "users", uid);
+      const docSnap = await getDoc(userRef);
+      if (docSnap.exists()) {
+        const role = docSnap.data().role;
+        if (role === "client") {
+          window.location.href = "client_dashboard.html";
+        } else if (role === "prestataire") {
+          window.location.href = "provider_dashboard.html";
+        }
+      } else {
+        alert("Aucun rôle associé à ce compte.");
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Connexion</h2>
+    <form onsubmit="handleLogin(event)">
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Mot de passe" required />
+      <button type="submit">Se connecter</button>
+    </form>
+    <div class="or">ou</div>
+    <button class="google-btn" onclick="handleGoogleLogin()">Connexion avec Google</button>
+  </div>
+</body>
+</html>
