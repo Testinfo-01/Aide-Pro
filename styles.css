@@ -1,0 +1,72 @@
+body {
+  margin: 0;
+  background-color: #0b1d3a;
+  color: #ffffff;
+  font-family: 'Segoe UI', sans-serif;
+}
+header {
+  background-color: #092544;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+.logo {
+  font-size: 1.6rem;
+  font-weight: bold;
+}
+.lang-selector select {
+  padding: 5px;
+}
+header button {
+  background-color: #1a6dff;
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.hero {
+  text-align: center;
+  padding: 4rem 1rem;
+}
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+.hero button {
+  background-color: #1a6dff;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.hero img {
+  max-width: 300px;
+  margin-top: 2rem;
+}
+.services {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+}
+.service {
+  background-color: #11335c;
+  padding: 1rem;
+  border-radius: 10px;
+}
+.service img {
+  width: 60px;
+  height: 60px;
+}
+footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: #092544;
+  color: #ccc;
+}

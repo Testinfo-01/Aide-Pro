@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aide Pro</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <header>
+    <div class="logo">🧰 Aide Pro</div>
+    <div class="lang-selector">
+      <select id="langSelect">
+        <option value="fr">🇫🇷 FR</option>
+        <option value="en">🇬🇧 EN</option>
+      </select>
+    </div>
+    <button onclick="location.href='auth.html'">Connexion</button>
+  </header>
+
+  <section class="hero">
+    <h1 id="slogan">Des services fiables, à portée de clic</h1>
+    <button onclick="alert('Bientôt disponible')">Trouver un prestataire</button>
+    <img src="hero-image.png" alt="Illustration services" />
+  </section>
+
+  <section class="services">
+    <h2 id="servicesTitle">Présentation des services</h2>
+    <div class="service-grid">
+      <div class="service"><img src="menage.png" alt="Ménage" /><p>Ménage</p></div>
+      <div class="service"><img src="jardinage.png" alt="Jardinage" /><p>Jardinage</p></div>
+      <div class="service"><img src="plomberie.png" alt="Plomberie" /><p>Plomberie</p></div>
+      <div class="service"><img src="informatique.png" alt="Aide informatique" /><p>Aide informatique</p></div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Aide Pro - Tous droits réservés</p>
+  </footer>
+</body>
+</html>
