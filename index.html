@@ -46,14 +46,21 @@
       padding: 0.5rem 1rem;
       border-radius: 5px;
       cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    header button:hover {
+      background-color: #559dff;
     }
     .hero {
       text-align: center;
       padding: 4rem 1rem;
+      background: linear-gradient(to bottom right, #0b1d3a, #1a2f50);
+      animation: fadeIn 1.5s ease-in-out;
     }
     .hero h1 {
-      font-size: 2.5rem;
+      font-size: 2.8rem;
       margin-bottom: 1.5rem;
+      animation: slideIn 1.2s ease-out;
     }
     .hero button {
       background-color: #1a6dff;
@@ -63,10 +70,16 @@
       border-radius: 5px;
       font-size: 1rem;
       cursor: pointer;
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    .hero button:hover {
+      background-color: #3c8eff;
+      transform: scale(1.05);
     }
     .services {
       text-align: center;
       padding: 2rem 1rem;
+      animation: fadeInUp 1.5s ease-in;
     }
     .services h2 {
       font-size: 2rem;
@@ -76,23 +89,41 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
       gap: 1rem;
-      margin-top: 1rem;
     }
     .service {
       background-color: #11335c;
       padding: 1rem;
       border-radius: 10px;
       color: white;
+      transition: transform 0.3s;
+    }
+    .service:hover {
+      transform: translateY(-5px);
+      background-color: #1a447a;
     }
     .service img {
       width: 60px;
       height: 60px;
+      margin-bottom: 10px;
     }
     footer {
       text-align: center;
       padding: 1rem;
       background-color: #092544;
       color: #ccc;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideIn {
+      from { transform: translateY(-30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
   <script type="module">
@@ -115,7 +146,7 @@
 <body>
   <header>
     <div class="header-left">
-      <div class="logo">Aide Pro</div>
+      <div class="logo">🧰 Aide Pro</div>
     </div>
     <div class="header-right">
       <button onclick="location.href='auth.html'">Connexion</button>
