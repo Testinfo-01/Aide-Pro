@@ -5,22 +5,131 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aide Pro</title>
   <link rel="stylesheet" href="styles.css" />
-  <script src="app.js" defer></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background-color: #0b1d3a;
+      color: #ffffff;
+    }
+    header {
+      background-color: #092544;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      color: white;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .logo {
+      font-size: 1.6rem;
+      font-weight: bold;
+    }
+    .lang-selector select {
+      padding: 5px;
+      background-color: #ffffff;
+      border-radius: 4px;
+    }
+    header button {
+      background-color: #1a6dff;
+      border: none;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .hero {
+      text-align: center;
+      padding: 4rem 1rem;
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .hero button {
+      background-color: #1a6dff;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    .services {
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+    .services h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+    .service {
+      background-color: #11335c;
+      padding: 1rem;
+      border-radius: 10px;
+      color: white;
+    }
+    .service img {
+      width: 60px;
+      height: 60px;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background-color: #092544;
+      color: #ccc;
+    }
+  </style>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+  </script>
 </head>
 <body>
   <header>
-    <div class="logo">Aide Pro</div>
-    <div class="lang-selector">
-      <select id="langSelect">
-        <option value="fr">🇫🇷 FR</option>
-        <option value="en">🇬🇧 EN</option>
-      </select>
+    <div class="header-left">
+      <div class="logo">Aide Pro</div>
     </div>
-    <button onclick="location.href='auth.html'">Connexion</button>
+    <div class="header-right">
+      <button onclick="location.href='auth.html'">Connexion</button>
+      <div class="lang-selector">
+        <select id="langSelect">
+          <option value="fr">🇫🇷 FR</option>
+          <option value="en">🇬🇧 EN</option>
+        </select>
+      </div>
+    </div>
   </header>
 
   <section class="hero">
-    <h1 id="slogan">Un clic, Un pro, Une solution!</h1>
+    <h1 id="slogan">Un Clic, Un Pro, Une Solution.</h1>
     <button onclick="alert('Bientôt disponible')">Trouver un prestataire</button>
   </section>
 
@@ -37,5 +146,7 @@
   <footer>
     <p>&copy; 2025 Aide Pro - Tous droits réservés</p>
   </footer>
+
+  <script src="app.js"></script>
 </body>
 </html>
