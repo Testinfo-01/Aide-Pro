@@ -138,23 +138,60 @@
       background-color: #092544;
       color: #ccc;
     }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    .sidebar {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background-color: rgba(18, 37, 68, 0.95);
+      overflow-x: hidden;
+      transition: 0.5s;
+      padding-top: 60px;
+      z-index: 9999;
     }
-    @keyframes slideIn {
-      from { transform: translateY(-30px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+    .sidebar a {
+      padding: 15px 25px;
+      text-decoration: none;
+      font-size: 18px;
+      color: white;
+      display: block;
+      transition: 0.3s;
     }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    .sidebar a:hover {
+      background-color: #1a447a;
+    }
+    .sidebar-close {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 30px;
+      cursor: pointer;
+    }
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 9998;
+      display: none;
     }
   </style>
 </head>
 <body>
+  <div id="overlay" class="overlay" onclick="closeSidebar()"></div>
+  <div id="sidebar" class="sidebar">
+    <a href="javascript:void(0)" class="sidebar-close" onclick="closeSidebar()">&times;</a>
+    <a href="#about">À propos de nous</a>
+    <a href="#help">Aide</a>
+    <a href="#contact">Contactez-nous</a>
+  </div>
+
   <header>
     <div class="header-left">
+      <button class="home-btn" onclick="openSidebar()">☰</button>
       <a href="index.html" class="logo">Aide Pro</a>
     </div>
     <div class="header-right">
@@ -206,7 +243,7 @@
     <div class="provider"><p><strong>Ali T.</strong> – Aide informatique | ⭐ 4.8</p></div>
   </section>
 
-    <footer>
+   <footer>
     <div class="social-icons">
       <a href="https://x.com" target="_blank" title="X">
         <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/x.svg" alt="X" width="24" height="24">
@@ -222,6 +259,15 @@
   </footer>
 
 
-  <script src="app.js"></script>
+  <script>
+    function openSidebar() {
+      document.getElementById("sidebar").style.width = "250px";
+      document.getElementById("overlay").style.display = "block";
+    }
+    function closeSidebar() {
+      document.getElementById("sidebar").style.width = "0";
+      document.getElementById("overlay").style.display = "none";
+    }
+  </script>
 </body>
 </html>
