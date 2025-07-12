@@ -4,8 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aide Pro - Authentification</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     body {
@@ -15,7 +13,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
+      min-height: 100vh;
       margin: 0;
     }
     .container {
@@ -96,12 +94,94 @@
     </div>
 
     <h2>Ou</h2>
-    <button class="google-btn" onclick="loginWithGoogle()">
+    <button class="google-btn" id="googleSignIn">
       <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo">
       Se connecter avec Google
     </button>
   </div>
 
-  <script type="module" src="./firebase-auth.js"></script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAeh5YQ-XHN9LG1h0rH3g2Ci2LS4byFF40",
+      authDomain: "aide-pro-f2a0f.firebaseapp.com",
+      projectId: "aide-pro-f2a0f",
+      storageBucket: "aide-pro-f2a0f.appspot.com",
+      messagingSenderId: "196840068418",
+      appId: "1:196840068418:web:ceb1e5bdd366077772a4db"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    window.signup = async function () {
+      const nom = document.getElementById("signup-lastname").value;
+      const prenom = document.getElementById("signup-firstname").value;
+      const email = document.getElementById("signup-email").value;
+      const password = document.getElementById("signup-password").value;
+      const role = document.getElementById("signup-role").value;
+
+      try {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        await setDoc(doc(db, "users", user.uid), {
+          email: user.email,
+          nom: nom,
+          prenom: prenom,
+          role: role,
+          createdAt: new Date()
+        });
+        alert("Compte créé !");
+        window.location.href = role === "client" ? "dashboard-client.html" : "dashboard-prestataire.html";
+      } catch (error) {
+        alert("Erreur : " + error.message);
+      }
+    };
+
+    window.login = async function () {
+      const email = document.getElementById("login-email").value;
+      const password = document.getElementById("login-password").value;
+
+      try {
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        if (userDoc.exists()) {
+          const role = userDoc.data().role;
+          window.location.href = role === "client" ? "dashboard-client.html" : "dashboard-prestataire.html";
+        } else {
+          alert("Profil introuvable.");
+        }
+      } catch (error) {
+        alert("Erreur : " + error.message);
+      }
+    };
+
+    document.getElementById("googleSignIn").addEventListener("click", async () => {
+      try {
+        const provider = new GoogleAuthProvider();
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+        if (!docSnap.exists()) {
+          await setDoc(docRef, {
+            email: user.email,
+            nom: user.displayName.split(" ").slice(-1).join(" "),
+            prenom: user.displayName.split(" ").slice(0, -1).join(" "),
+            role: "client",
+            createdAt: new Date()
+          });
+        }
+        window.location.href = "dashboard-client.html";
+      } catch (error) {
+        alert("Erreur Google : " + error.message);
+      }
+    });
+  </script>
 </body>
 </html>
