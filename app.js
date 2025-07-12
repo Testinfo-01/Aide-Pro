@@ -1,6 +1,6 @@
 const translations = {
   fr: {
-    slogan: "Des services fiables, à portée de clic",
+    slogan: "Un Clic, Un Pro, Une Solution",
     servicesTitle: "Présentation des services"
   },
   en: {
