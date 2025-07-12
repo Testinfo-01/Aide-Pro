@@ -27,7 +27,7 @@
     h1, h2 {
       text-align: center;
     }
-    input, select, button {
+    input, button {
       display: block;
       width: 100%;
       margin-top: 10px;
@@ -36,7 +36,7 @@
       border: none;
       font-size: 16px;
     }
-    input, select {
+    input {
       background-color: #f5f5f5;
       color: #000;
     }
@@ -79,10 +79,6 @@
       <input type="text" id="signup-firstname" placeholder="Prénom">
       <input type="email" id="signup-email" placeholder="Adresse e-mail">
       <input type="password" id="signup-password" placeholder="Mot de passe">
-      <select id="signup-role">
-        <option value="client">Client</option>
-        <option value="prestataire">Prestataire</option>
-      </select>
       <button onclick="signup()">Créer un compte</button>
     </div>
 
@@ -123,7 +119,7 @@
       const prenom = document.getElementById("signup-firstname").value;
       const email = document.getElementById("signup-email").value;
       const password = document.getElementById("signup-password").value;
-      const role = document.getElementById("signup-role").value;
+      const role = "client"; // Défini automatiquement
 
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -136,7 +132,7 @@
           createdAt: new Date()
         });
         alert("Compte créé !");
-        window.location.href = role === "client" ? "dashboard-client.html" : "dashboard-prestataire.html";
+        window.location.href = "dashboard-client.html";
       } catch (error) {
         alert("Erreur : " + error.message);
       }
