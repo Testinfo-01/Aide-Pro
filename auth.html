@@ -2,145 +2,147 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Connexion / Inscription | Aide Pro</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aide Pro - Connexion</title>
   <style>
     body {
-      background-color: #0b1d3a;
-      font-family: 'Segoe UI', sans-serif;
+      background-color: #0a1b3d;
       color: white;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
     }
     .container {
-      background: #092544;
-      padding: 2rem;
-      border-radius: 10px;
-      width: 100%;
       max-width: 400px;
+      margin: auto;
+      background-color: #12285c;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
     }
-    input {
+    input, select, button {
       width: 100%;
-      padding: 10px;
-      margin-top: 10px;
+      margin: 8px 0;
+      padding: 12px;
       border: none;
-      border-radius: 5px;
+      border-radius: 8px;
+      font-size: 16px;
     }
     button {
-      margin-top: 20px;
-      width: 100%;
-      padding: 10px;
-      background-color: #1a6dff;
-      border: none;
+      background-color: #1e90ff;
       color: white;
-      border-radius: 5px;
       cursor: pointer;
     }
-    h2 { text-align: center; }
+    button:hover {
+      background-color: #0073e6;
+    }
   </style>
 </head>
 <body>
+
   <div class="container">
-    <h2>Connexion / Inscription</h2>
-    <input type="text" id="nom" placeholder="Nom complet">
-    <input type="email" id="email" placeholder="Email">
-    <input type="password" id="password" placeholder="Mot de passe">
-    <button onclick="inscription()">Créer un compte</button>
-    <button onclick="connexion()">Se connecter</button>
-    <button onclick="connexionGoogle()">Se connecter avec Google</button>
+    <h2>Bienvenue sur Aide Pro</h2>
+
+    <h3>Créer un compte</h3>
+    <input id="nom" type="text" placeholder="Nom complet" />
+    <input id="email" type="email" placeholder="Adresse e-mail" />
+    <input id="password" type="password" placeholder="Mot de passe" />
+    <select id="role">
+      <option value="client">Client</option>
+      <option value="prestataire">Prestataire</option>
+    </select>
+    <button onclick="register(email.value, password.value, nom.value, role.value)">Créer un compte</button>
+
+    <h3>Se connecter</h3>
+    <input id="emailLogin" type="email" placeholder="Adresse e-mail" />
+    <input id="passwordLogin" type="password" placeholder="Mot de passe" />
+    <button onclick="login(emailLogin.value, passwordLogin.value)">Connexion</button>
+
+    <hr />
+    <button onclick="loginWithGoogle()">Connexion avec Google</button>
   </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-    import {
-      getAuth,
-      createUserWithEmailAndPassword,
-      signInWithEmailAndPassword,
-      updateProfile,
-      GoogleAuthProvider,
-      signInWithPopup
-    } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
-    import {
-      getFirestore,
-      doc,
-      setDoc,
-      getDoc
-    } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
 
+  <script>
+    // Configuration Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyAeh5YQ-XHN9LG1h0rH3g2Ci2LS4byFF40",
       authDomain: "aide-pro-f2a0f.firebaseapp.com",
       projectId: "aide-pro-f2a0f",
-      storageBucket: "aide-pro-f2a0f.firebasestorage.app",
+      storageBucket: "aide-pro-f2a0f.appspot.com",
       messagingSenderId: "196840068418",
       appId: "1:196840068418:web:ceb1e5bdd366077772a4db"
     };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+    // Initialiser Firebase
+    const app = firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
 
-    async function enregistrerUtilisateur(user) {
-      const userRef = doc(db, "users", user.uid);
-      const snap = await getDoc(userRef);
-      if (!snap.exists()) {
-        await setDoc(userRef, {
+    // Inscription
+    async function register(email, password, nom, role) {
+      try {
+        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        const user = userCredential.user;
+        await db.collection("users").doc(user.uid).set({
           email: user.email,
-          displayName: user.displayName || "",
-          role: "client",
-          lang: "fr",
+          nom: nom,
+          role: role,
           createdAt: new Date()
         });
-      }
-    }
-
-    window.inscription = async function () {
-      const nom = document.getElementById("nom").value;
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-
-      try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-        await updateProfile(user, { displayName: nom });
-        await enregistrerUtilisateur(user);
-        window.location.href = "dashboard-client.html";
+        alert("Compte créé !");
+        if (role === "client") {
+          window.location.href = "dashboard-client.html";
+        } else {
+          window.location.href = "dashboard-prestataire.html";
+        }
       } catch (error) {
         alert("Erreur : " + error.message);
       }
     }
 
-    window.connexion = async function () {
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
-
+    // Connexion
+    async function login(email, password) {
       try {
-        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const userCredential = await auth.signInWithEmailAndPassword(email, password);
         const user = userCredential.user;
-
-        const userRef = doc(db, "users", user.uid);
-        const snap = await getDoc(userRef);
-        const role = snap.exists() ? snap.data().role : "client";
-
-        window.location.href = role === "prestataire" ? "dashboard-presta.html" : "dashboard-client.html";
+        const doc = await db.collection("users").doc(user.uid).get();
+        if (doc.exists) {
+          const role = doc.data().role;
+          if (role === "client") {
+            window.location.href = "dashboard-client.html";
+          } else {
+            window.location.href = "dashboard-prestataire.html";
+          }
+        } else {
+          alert("Aucun rôle trouvé.");
+        }
       } catch (error) {
         alert("Erreur : " + error.message);
       }
     }
 
-    window.connexionGoogle = async function () {
-      const provider = new GoogleAuthProvider();
+    // Connexion Google
+    async function loginWithGoogle() {
       try {
-        const result = await signInWithPopup(auth, provider);
+        const provider = new firebase.auth.GoogleAuthProvider();
+        const result = await auth.signInWithPopup(provider);
         const user = result.user;
-        await enregistrerUtilisateur(user);
-        const userRef = doc(db, "users", user.uid);
-        const snap = await getDoc(userRef);
-        const role = snap.exists() ? snap.data().role : "client";
-        window.location.href = role === "prestataire" ? "dashboard-presta.html" : "dashboard-client.html";
+        const docRef = db.collection("users").doc(user.uid);
+        const docSnap = await docRef.get();
+        if (!docSnap.exists) {
+          await docRef.set({
+            email: user.email,
+            nom: user.displayName,
+            role: "client",
+            createdAt: new Date()
+          });
+        }
+        window.location.href = "dashboard-client.html";
       } catch (error) {
         alert("Erreur Google : " + error.message);
       }
