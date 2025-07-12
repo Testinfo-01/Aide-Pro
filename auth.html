@@ -50,6 +50,7 @@
     <input type="password" id="password" placeholder="Mot de passe">
     <button onclick="inscription()">Créer un compte</button>
     <button onclick="connexion()">Se connecter</button>
+    <button onclick="connexionGoogle()">Se connecter avec Google</button>
   </div>
 
   <script type="module">
@@ -58,7 +59,9 @@
       getAuth,
       createUserWithEmailAndPassword,
       signInWithEmailAndPassword,
-      updateProfile
+      updateProfile,
+      GoogleAuthProvider,
+      signInWithPopup
     } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
     import {
       getFirestore,
@@ -125,6 +128,21 @@
         window.location.href = role === "prestataire" ? "dashboard-presta.html" : "dashboard-client.html";
       } catch (error) {
         alert("Erreur : " + error.message);
+      }
+    }
+
+    window.connexionGoogle = async function () {
+      const provider = new GoogleAuthProvider();
+      try {
+        const result = await signInWithPopup(auth, provider);
+        const user = result.user;
+        await enregistrerUtilisateur(user);
+        const userRef = doc(db, "users", user.uid);
+        const snap = await getDoc(userRef);
+        const role = snap.exists() ? snap.data().role : "client";
+        window.location.href = role === "prestataire" ? "dashboard-presta.html" : "dashboard-client.html";
+      } catch (error) {
+        alert("Erreur Google : " + error.message);
       }
     }
   </script>
