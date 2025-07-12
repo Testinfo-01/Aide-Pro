@@ -1,74 +1,38 @@
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Aide Pro - Connexion</title>
-  <style>
-    body {
-      background-color: #0a1b3d;
-      color: white;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 20px;
-    }
-    .container {
-      max-width: 400px;
-      margin: auto;
-      background-color: #12285c;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
-    }
-    input, select, button {
-      width: 100%;
-      margin: 8px 0;
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-    }
-    button {
-      background-color: #1e90ff;
-      color: white;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #0073e6;
-    }
-  </style>
+  <title>Connexion - Aide Pro</title>
 </head>
-<body>
+<body style="font-family: Arial, sans-serif; background-color: #0a1a2f; color: white; padding: 40px;">
 
-  <div class="container">
-    <h2>Bienvenue sur Aide Pro</h2>
+  <h1>Bienvenue sur Aide Pro</h1>
 
-    <h3>Créer un compte</h3>
-    <input id="nom" type="text" placeholder="Nom complet" />
-    <input id="email" type="email" placeholder="Adresse e-mail" />
-    <input id="password" type="password" placeholder="Mot de passe" />
-    <select id="role">
-      <option value="client">Client</option>
-      <option value="prestataire">Prestataire</option>
-    </select>
-    <button onclick="register(email.value, password.value, nom.value, role.value)">Créer un compte</button>
+  <h2>Créer un compte</h2>
+  <input type="text" id="nom" placeholder="Nom complet"><br><br>
+  <input type="email" id="email" placeholder="Adresse e-mail"><br><br>
+  <input type="password" id="password" placeholder="Mot de passe"><br><br>
+  <select id="role">
+    <option value="client">Client</option>
+    <option value="prestataire">Prestataire</option>
+  </select><br><br>
+  <button onclick="register(email.value, password.value, nom.value, role.value)">Créer un compte</button>
 
-    <h3>Se connecter</h3>
-    <input id="emailLogin" type="email" placeholder="Adresse e-mail" />
-    <input id="passwordLogin" type="password" placeholder="Mot de passe" />
-    <button onclick="login(emailLogin.value, passwordLogin.value)">Connexion</button>
+  <h2>Connexion</h2>
+  <input type="email" id="emailLogin" placeholder="Adresse e-mail"><br><br>
+  <input type="password" id="passwordLogin" placeholder="Mot de passe"><br><br>
+  <button onclick="login(emailLogin.value, passwordLogin.value)">Se connecter</button>
 
-    <hr />
-    <button onclick="loginWithGoogle()">Connexion avec Google</button>
-  </div>
+  <h2>Ou</h2>
+  <button onclick="loginWithGoogle()">Se connecter avec Google</button>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"></script>
+  <!-- Firebase modules -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import { getFirestore, setDoc, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-  <script>
-    // Configuration Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyAeh5YQ-XHN9LG1h0rH3g2Ci2LS4byFF40",
       authDomain: "aide-pro-f2a0f.firebaseapp.com",
@@ -78,64 +42,52 @@
       appId: "1:196840068418:web:ceb1e5bdd366077772a4db"
     };
 
-    // Initialiser Firebase
-    const app = firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-    // Inscription
-    async function register(email, password, nom, role) {
+    window.register = async function(email, password, nom, role) {
       try {
-        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
-        await db.collection("users").doc(user.uid).set({
+        await setDoc(doc(db, "users", user.uid), {
           email: user.email,
           nom: nom,
           role: role,
           createdAt: new Date()
         });
         alert("Compte créé !");
-        if (role === "client") {
-          window.location.href = "dashboard-client.html";
-        } else {
-          window.location.href = "dashboard-prestataire.html";
-        }
+        window.location.href = role === "client" ? "dashboard-client.html" : "dashboard-prestataire.html";
       } catch (error) {
         alert("Erreur : " + error.message);
       }
-    }
+    };
 
-    // Connexion
-    async function login(email, password) {
+    window.login = async function(email, password) {
       try {
-        const userCredential = await auth.signInWithEmailAndPassword(email, password);
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
-        const doc = await db.collection("users").doc(user.uid).get();
-        if (doc.exists) {
-          const role = doc.data().role;
-          if (role === "client") {
-            window.location.href = "dashboard-client.html";
-          } else {
-            window.location.href = "dashboard-prestataire.html";
-          }
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        if (userDoc.exists()) {
+          const role = userDoc.data().role;
+          window.location.href = role === "client" ? "dashboard-client.html" : "dashboard-prestataire.html";
         } else {
-          alert("Aucun rôle trouvé.");
+          alert("Profil non trouvé.");
         }
       } catch (error) {
         alert("Erreur : " + error.message);
       }
-    }
+    };
 
-    // Connexion Google
-    async function loginWithGoogle() {
+    window.loginWithGoogle = async function() {
       try {
-        const provider = new firebase.auth.GoogleAuthProvider();
-        const result = await auth.signInWithPopup(provider);
+        const provider = new GoogleAuthProvider();
+        const result = await signInWithPopup(auth, provider);
         const user = result.user;
-        const docRef = db.collection("users").doc(user.uid);
-        const docSnap = await docRef.get();
-        if (!docSnap.exists) {
-          await docRef.set({
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+        if (!docSnap.exists()) {
+          await setDoc(docRef, {
             email: user.email,
             nom: user.displayName,
             role: "client",
@@ -146,7 +98,8 @@
       } catch (error) {
         alert("Erreur Google : " + error.message);
       }
-    }
+    };
   </script>
+
 </body>
 </html>
