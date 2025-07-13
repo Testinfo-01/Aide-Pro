@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Créer un compte prestataire - Aide Pro</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0b1d3a;
+      color: white;
+      margin: 0;
+    }
+    .container {
+      max-width: 500px;
+      margin: 3rem auto;
+      padding: 2rem;
+      background-color: #11335c;
+      border-radius: 10px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    input, select {
+      width: 100%;
+      padding: 0.7rem;
+      margin: 0.6rem 0;
+      border: none;
+      border-radius: 5px;
+    }
+    label {
+      margin-top: 1rem;
+      display: block;
+      font-weight: bold;
+    }
+    .checkbox {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #1a6dff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      margin-top: 1rem;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    button:hover {
+      background-color: #3c8eff;
+    }
+    .footer-links {
+      text-align: center;
+      margin-top: 2rem;
+    }
+    .footer-links a {
+      color: #1a6dff;
+      margin: 0 0.5rem;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Créer un compte Prestataire</h2>
+    <form>
+      <label for="prenom">Prénom</label>
+      <input type="text" id="prenom" placeholder="Prénom" required />
+
+      <label for="nom">Nom</label>
+      <input type="text" id="nom" placeholder="Nom" required />
+
+      <label for="email">Email</label>
+      <input type="email" id="email" placeholder="Email" required />
+
+      <label for="phone">Téléphone</label>
+      <input type="tel" id="phone" placeholder="Numéro de téléphone" required />
+
+      <label for="password">Mot de passe</label>
+      <input type="password" id="password" placeholder="Mot de passe" required />
+
+      <label for="ville">Emplacement</label>
+      <select id="ville" required>
+        <option value="">Choisir une ville</option>
+        <option>Gatineau</option>
+        <option>Ottawa</option>
+        <option>Montréal</option>
+        <option>Québec</option>
+      </select>
+
+      <label for="categorie">Catégorie</label>
+      <select id="categorie" required>
+        <option value="">Choisir une catégorie</option>
+        <option>Ménage</option>
+        <option>Plomberie</option>
+        <option>Jardinage</option>
+        <option>Aide informatique</option>
+      </select>
+
+      <div class="checkbox">
+        <input type="checkbox" id="terms" required />
+        <label for="terms">J'accepte les <a href="#">termes et conditions</a></label>
+      </div>
+
+      <button type="submit">Créer un compte</button>
+    </form>
+  </div>
+  <div class="footer-links">
+    <a href="index.html">← Retour à l'accueil</a>
+    <a href="auth.html">Déjà un compte ? Connexion</a>
+  </div>
+</body>
+</html>
