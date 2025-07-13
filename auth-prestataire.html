@@ -2,118 +2,143 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Créer un compte prestataire - Aide Pro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Créer un compte prestataire</title>
   <link rel="stylesheet" href="styles.css" />
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
       background-color: #0b1d3a;
-      color: white;
+      font-family: 'Segoe UI', sans-serif;
       margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
     }
-    .container {
-      max-width: 500px;
-      margin: 3rem auto;
+
+    .form-container {
+      background-color: #0e2b5c;
       padding: 2rem;
-      background-color: #11335c;
       border-radius: 10px;
+      max-width: 400px;
+      width: 90%;
+      color: white;
     }
+
     h2 {
       text-align: center;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
     }
+
+    label {
+      display: block;
+      margin-top: 1rem;
+      font-weight: 500;
+    }
+
     input, select {
       width: 100%;
       padding: 0.7rem;
-      margin: 0.6rem 0;
       border: none;
       border-radius: 5px;
+      margin-top: 0.3rem;
     }
-    label {
+
+    .checkbox-container {
       margin-top: 1rem;
-      display: block;
-      font-weight: bold;
-    }
-    .checkbox {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      margin-top: 1rem;
     }
-    button {
+
+    .checkbox-container input {
+      margin-right: 0.5rem;
+    }
+
+    .submit-btn, .google-btn {
       width: 100%;
-      padding: 0.75rem;
-      background-color: #1a6dff;
-      color: white;
+      padding: 0.8rem;
+      margin-top: 1.2rem;
       border: none;
       border-radius: 5px;
-      margin-top: 1rem;
       cursor: pointer;
       font-size: 1rem;
     }
-    button:hover {
-      background-color: #3c8eff;
+
+    .submit-btn {
+      background-color: #1a6dff;
+      color: white;
     }
-    .footer-links {
-      text-align: center;
-      margin-top: 2rem;
+
+    .submit-btn:hover {
+      background-color: #559dff;
     }
-    .footer-links a {
-      color: #1a6dff;
-      margin: 0 0.5rem;
-      text-decoration: underline;
+
+    .google-btn {
+      background-color: white;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .google-btn img {
+      width: 20px;
+      margin-right: 8px;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Créer un compte Prestataire</h2>
-    <form>
-      <label for="prenom">Prénom</label>
-      <input type="text" id="prenom" placeholder="Prénom" required />
 
+  <div class="form-container">
+    <h2>Créer un compte prestataire</h2>
+
+    <form>
       <label for="nom">Nom</label>
-      <input type="text" id="nom" placeholder="Nom" required />
+      <input type="text" id="nom" name="nom" required />
+
+      <label for="prenom">Prénom</label>
+      <input type="text" id="prenom" name="prenom" required />
 
       <label for="email">Email</label>
-      <input type="email" id="email" placeholder="Email" required />
+      <input type="email" id="email" name="email" required />
 
-      <label for="phone">Téléphone</label>
-      <input type="tel" id="phone" placeholder="Numéro de téléphone" required />
-
-      <label for="password">Mot de passe</label>
-      <input type="password" id="password" placeholder="Mot de passe" required />
-
-      <label for="ville">Emplacement</label>
-      <select id="ville" required>
-        <option value="">Choisir une ville</option>
-        <option>Gatineau</option>
-        <option>Ottawa</option>
-        <option>Montréal</option>
-        <option>Québec</option>
-      </select>
+      <label for="tel">Téléphone</label>
+      <input type="tel" id="tel" name="tel" required />
 
       <label for="categorie">Catégorie</label>
-      <select id="categorie" required>
-        <option value="">Choisir une catégorie</option>
-        <option>Ménage</option>
-        <option>Plomberie</option>
-        <option>Jardinage</option>
-        <option>Aide informatique</option>
+      <select id="categorie" name="categorie" required>
+        <option value="">Sélectionnez une catégorie</option>
+        <option value="menage">Ménage</option>
+        <option value="jardinage">Jardinage</option>
+        <option value="plomberie">Plomberie</option>
+        <option value="informatique">Aide informatique</option>
       </select>
 
-      <div class="checkbox">
-        <input type="checkbox" id="terms" required />
-        <label for="terms">J'accepte les <a href="#">termes et conditions</a></label>
+      <label for="ville">Emplacement</label>
+      <select id="ville" name="ville" required>
+        <option value="">Choisissez une ville</option>
+        <option value="gatineau">Gatineau</option>
+        <option value="ottawa">Ottawa</option>
+        <option value="montreal">Montréal</option>
+        <option value="toronto">Toronto</option>
+      </select>
+
+      <label for="password">Mot de passe</label>
+      <input type="password" id="password" name="password" required />
+
+      <div class="checkbox-container">
+        <input type="checkbox" id="terms" name="terms" required />
+        <label for="terms">J’accepte les <a href="#" style="color:#a6c1ff;">conditions d’utilisation</a></label>
       </div>
 
-      <button type="submit">Créer un compte</button>
+      <button class="submit-btn" type="submit">Créer un compte</button>
+      <button class="google-btn" type="button">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google" />
+        Se connecter avec Google
+      </button>
     </form>
   </div>
-  <div class="footer-links">
-    <a href="index.html">← Retour à l'accueil</a>
-    <a href="auth.html">Déjà un compte ? Connexion</a>
-  </div>
+
 </body>
 </html>
