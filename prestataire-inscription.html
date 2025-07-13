@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inscription Prestataire - Aide Pro</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0b1d3a;
+      color: #ffffff;
+      margin: 0;
+      padding: 2rem;
+    }
+    .form-container {
+      max-width: 400px;
+      margin: auto;
+      padding: 2rem;
+      background-color: #11335c;
+      border-radius: 10px;
+    }
+    h2 {
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin-bottom: 0.3rem;
+      margin-top: 1rem;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 1rem;
+      border-radius: 5px;
+      border: none;
+    }
+    button {
+      width: 100%;
+      padding: 0.75rem;
+      background-color: #1a6dff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #3c8eff;
+    }
+    .terms {
+      margin-bottom: 1.5rem;
+    }
+    .terms label {
+      display: flex;
+      align-items: center;
+      font-weight: normal;
+    }
+    .terms a {
+      color: #80c0ff;
+      margin-left: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2>Créer un compte prestataire</h2>
+    <form>
+      <label for="prenom">Prénom</label>
+      <input type="text" id="prenom" name="prenom" required>
+
+      <label for="nom">Nom</label>
+      <input type="text" id="nom" name="nom" required>
+
+      <label for="email">Adresse e-mail</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="telephone">Numéro de téléphone</label>
+      <input type="tel" id="telephone" name="telephone" required>
+
+      <label for="motdepasse">Mot de passe</label>
+      <input type="password" id="motdepasse" name="motdepasse" required>
+
+      <label for="emplacement">Emplacement</label>
+      <select id="emplacement" name="emplacement" required>
+        <option value="" disabled selected>Choisissez votre emplacement</option>
+        <option value="ottawa">Ottawa</option>
+        <option value="gatineau">Gatineau</option>
+        <option value="montreal">Montréal</option>
+      </select>
+
+      <label for="categorie">Catégorie de prestation</label>
+      <select id="categorie" name="categorie" required>
+        <option value="" disabled selected>Choisissez une catégorie</option>
+        <option value="menage">Ménage</option>
+        <option value="plomberie">Plomberie</option>
+        <option value="jardinage">Jardinage</option>
+        <option value="informatique">Aide informatique</option>
+      </select>
+
+      <div class="terms">
+        <label>
+          <input type="checkbox" id="terms" required style="margin-right: 8px;">
+          J'accepte les <a href="#">conditions générales</a>
+        </label>
+      </div>
+
+      <button type="submit">Créer un compte</button>
+    </form>
+  </div>
+</body>
+</html>
