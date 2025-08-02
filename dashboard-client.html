@@ -1,50 +1,181 @@
-<!DOCTYPE html><html><head><title>dashboard-client.html</title></head><body>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tableau de bord – Client | Aide Pro</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #0b1d3a;
+      color: #fff;
+    }
+    header {
+      background: #092544;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+    header button {
+      background: #1a6dff;
+      border: none;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    header button:hover {
+      background: #3c8eff;
+    }
+    main {
+      padding: 2rem;
+    }
+    #welcome {
+      margin-bottom: 1.5rem;
+      font-size: 1.25rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      background: #11335c;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 1px solid #0b1d3a;
+    }
+    th {
+      background: #1a6dff;
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+    .empty {
+      text-align: center;
+      padding: 2rem;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Aide Pro – Tableau de bord</h1>
+    <button id="logoutBtn">Déconnexion</button>
+  </header>
 
-<header style="background:#092544; color:white; display:flex; justify-content:space-between; align-items:center; padding:1rem 2rem;">
-  <a href="index.html" style="color:white; text-decoration:none; font-size:1.5rem; font-weight:bold;">Aide Pro</a>
-  <div style="display:flex; gap:1rem;">
-    <button onclick="goToDashboard()" style="background:#1a6dff; border:none; color:white; padding:0.5rem 1rem; border-radius:5px;">Dashboard</button>
-    <button onclick="location.href='profil.html'" style="background:#1a6dff; border:none; color:white; padding:0.5rem 1rem; border-radius:5px;">Profil</button>
-    <button onclick="logout()" style="background:#1a6dff; border:none; color:white; padding:0.5rem 1rem; border-radius:5px;">Déconnexion</button>
-  </div>
-</header>
-<main><h2>Contenu de dashboard-client.html</h2></main>
+  <main>
+    <div id="welcome">Bienvenue, <span id="user-name">...</span></div>
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
-  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+    <h2>Mes demandes de contact</h2>
+    <div id="loading">Chargement en cours…</div>
+    <table id="contacts-table" style="display:none;">
+      <thead>
+        <tr>
+          <th>Prénom</th>
+          <th>Nom</th>
+          <th>Email</th>
+          <th>Téléphone</th>
+          <th>Message</th>
+          <th>Reçue le</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <div id="no-requests" class="empty" style="display:none;">
+      Vous n’avez encore soumis aucune demande.
+    </div>
+  </main>
 
-  const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
-  };
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+    import {
+      getAuth, onAuthStateChanged, signOut
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+    import {
+      getFirestore, collection, query, where,
+      orderBy, getDocs, serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
+    // --- CONFIG FIREBASE (identique à tes autres pages) ---
+    const firebaseConfig = {
+      apiKey: "AIzaSyAeh5YQ-XHN9LG1h0rH3g2Ci2LS4byFF40",
+      authDomain: "aide-pro-f2a0f.firebaseapp.com",
+      projectId: "aide-pro-f2a0f",
+      storageBucket: "aide-pro-f2a0f.appspot.com",
+      messagingSenderId: "196840068418",
+      appId: "1:196840068418:web:ceb1e5bdd366077772a4db"
+    };
 
-  window.logout = function () {
-    signOut(auth).then(() => {
-      window.location.href = "auth.html";
-    });
-  }
+    // --- INITIALISATION ---
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-  window.goToDashboard = function () {
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const userRef = doc(db, "users", user.uid);
-        const userSnap = await getDoc(userRef);
-        const role = userSnap.exists() ? userSnap.data().role : "client";
-        window.location.href = role === "prestataire" ? "dashboard-presta.html" : "dashboard-client.html";
-      } else {
-        window.location.href = "auth.html";
+    const userNameEl     = document.getElementById('user-name');
+    const logoutBtn      = document.getElementById('logoutBtn');
+    const loadingEl      = document.getElementById('loading');
+    const tableEl        = document.getElementById('contacts-table');
+    const tbodyEl        = tableEl.querySelector('tbody');
+    const noRequestsEl   = document.getElementById('no-requests');
+
+    // --- GESTION AUTHENTIFICATION ---
+    onAuthStateChanged(auth, user => {
+      if (!user) {
+        // Pas connecté : renvoyer vers la page de login
+        window.location.href = 'auth-client-inscription.html';
+        return;
       }
+      // Connecté : afficher le nom
+      userNameEl.textContent = user.displayName || user.email;
+      // Charger les demandes
+      loadContacts(user);
     });
-  }
-</script>
-</body></html>
+
+    logoutBtn.addEventListener('click', () => {
+      signOut(auth).then(() => {
+        window.location.href = 'index.html';
+      });
+    });
+
+    // --- CHARGER LES DEMANDES FIRESTORE ---
+    async function loadContacts(user) {
+      const q = query(
+        collection(db, 'contacts'),
+        where('email', '==', user.email),
+        orderBy('createdAt', 'desc')
+      );
+      const snap = await getDocs(q);
+      loadingEl.style.display = 'none';
+
+      if (snap.empty) {
+        noRequestsEl.style.display = 'block';
+        return;
+      }
+      tableEl.style.display = '';
+      snap.forEach(doc => {
+        const data = doc.data();
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${data.prenom}</td>
+          <td>${data.nom}</td>
+          <td>${data.email}</td>
+          <td>${data.telephone}</td>
+          <td>${data.message}</td>
+          <td>${data.createdAt?.toDate().toLocaleString() || ''}</td>
+        `;
+        tbodyEl.appendChild(tr);
+      });
+    }
+  </script>
+</body>
+</html>
